@@ -88,5 +88,9 @@ Buka [http://localhost:3000](http://localhost:3000) di browser Anda untuk meliha
 
 ---
 
-## 📝 Lisensi
-Proyek ini bersifat *Open Source* dan dirancang untuk keperluan mitigasi bencana di Indonesia.
+## 📝 Hak Cipta & Hak Paten
+**Hak Cipta © 2026 SIGMA AIR. Semua Hak Dilindungi (All Rights Reserved).**
+
+Proyek ini adalah perangkat lunak berpemilik (*Proprietary Software*). Dilarang keras menyalin, mendistribusikan, memodifikasi, merekayasa balik (*reverse engineering*), atau menggunakan sebagian maupun seluruh kode sumber dan desain aplikasi ini untuk tujuan komersial maupun non-komersial tanpa izin tertulis yang sah. 
+
+Karya dan inovasi di dalam SIGMA AIR **sedang dalam proses pendaftaran Hak Kekayaan Intelektual (HAKI) / Hak Paten**. Segala bentuk pelanggaran akan diproses sesuai dengan hukum yang berlaku.
