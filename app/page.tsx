@@ -440,19 +440,25 @@ export default function Home() {
       }
     }
 
-    const { error } = await supabase.from("citizen_reports").insert({
-      region_id: reportForm.regionId,
-      description: reportForm.description.trim(),
-      media_url,
-      confidence: 73
+    const res = await fetch("/api/reports", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        regionId: reportForm.regionId,
+        description: reportForm.description.trim(),
+        mediaUrl: media_url
+      })
     });
 
     setIsSubmitting(false);
-    if (!error) {
-      setReportForm(curr => ({ ...curr, description: "" }));
+
+    if (res.ok) {
+      setReportForm({ regionId: selectedId, description: "" });
       setMediaFile(null);
       setSubmitted(true);
       window.setTimeout(() => setSubmitted(false), 2600);
+    } else {
+      alert("Gagal mengirim laporan. Silakan coba lagi.");
     }
   }
 

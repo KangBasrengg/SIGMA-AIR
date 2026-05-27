@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { createClient } from "@supabase/supabase-js";
 import webpush from "web-push";
 
@@ -14,6 +15,15 @@ webpush.setVapidDetails(
 // POST /api/push/send — send push notification to all subscribers
 export async function POST(req: Request) {
   try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("sigma-admin-auth");
+    
+    // Only allow manual broadcast if user is admin OR if the request has an internal service token (for auto triggers)
+    const isAutoTrigger = req.headers.get("x-service-token") === process.env.ADMIN_PASSWORD;
+    if (token?.value !== "sigma-air-authenticated" && !isAutoTrigger) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { title, body, regionId } = await req.json();
 
     const supabase = createClient(

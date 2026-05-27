@@ -20,10 +20,15 @@ export const viewport: Viewport = {
   initialScale: 1
 };
 
+import PwaInstallPrompt from "@/Components/PwaInstallPrompt";
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="id">
-      <body className={inter.variable}>{children}</body>
+      <body className={inter.variable}>
+        {children}
+        <PwaInstallPrompt />
+      </body>
     </html>
   );
 }
