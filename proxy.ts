@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 const COOKIE_NAME = "sigma-admin-auth";
 const SESSION_TOKEN = "sigma-air-authenticated";
 
-export function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Only protect /admin routes (but NOT /admin/login)
