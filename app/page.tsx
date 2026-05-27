@@ -22,7 +22,8 @@ import {
   ShieldAlert,
   Smartphone,
   Sun,
-  Waves
+  Waves,
+  Lock
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import RegisterServiceWorker from "@/Components/RegisterServiceWorker";
@@ -525,6 +526,14 @@ export default function Home() {
             <Globe2 size={16} />
             {language === "id" ? "ID" : "EN"}
           </button>
+          <a
+            href="/admin"
+            className="inline-flex items-center gap-2 rounded-md bg-sea-50 px-3 py-2 text-xs font-black text-sea-700 hover:bg-sea-100 dark:bg-sea-500/10 dark:text-sea-400 dark:hover:bg-sea-500/20"
+            title="Admin Dashboard"
+          >
+            <Lock size={16} />
+            Admin
+          </a>
         </div>
       </nav>
 
