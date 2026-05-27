@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Activity,
   AlertTriangle,
@@ -19,6 +20,8 @@ import {
   Sun,
   Trash2,
   Users,
+  LogOut,
+  Download,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { regions as staticRegions, type RegionStatus } from "@/lib/data";
@@ -51,6 +54,28 @@ export default function AdminDashboard() {
   const [alertForm, setAlertForm] = useState({ regionId: staticRegions[0].id, message: "" });
   const [alertSending, setAlertSending] = useState(false);
   const [alertResult, setAlertResult] = useState<string | null>(null);
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/admin/login", { method: "DELETE" });
+    router.push("/admin/login");
+    router.refresh();
+  }
+
+  function exportCSV() {
+    if (reports.length === 0) return;
+    const header = "ID,Wilayah,Deskripsi,Media URL,Confidence,Waktu\n";
+    const rows = reports.map(r =>
+      `"${r.id}","${r.region_id}","${r.description.replace(/"/g, '""')}","${r.media_url ?? ''}",${r.confidence},"${r.created_at}"`
+    ).join("\n");
+    const blob = new Blob([header + rows], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `laporan-sigma-air-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -199,6 +224,13 @@ export default function AdminDashboard() {
           >
             {darkMode ? <Sun size={16} /> : <Moon size={16} />}
           </button>
+          <button
+            onClick={handleLogout}
+            className="rounded-md bg-red-50 p-2.5 text-red-600 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/20"
+            title="Logout"
+          >
+            <LogOut size={16} />
+          </button>
         </div>
       </nav>
 
@@ -321,6 +353,14 @@ export default function AdminDashboard() {
           <div className="rounded-lg border border-white/80 bg-white/90 p-5 shadow-panel dark:border-slate-700 dark:bg-slate-900">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-black">Semua Laporan Warga ({stats.totalReports})</h2>
+              <button
+                onClick={exportCSV}
+                disabled={reports.length === 0}
+                className="inline-flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-ink hover:bg-sea-50 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+              >
+                <Download size={14} />
+                Export CSV
+              </button>
             </div>
             {reports.length === 0 ? (
               <p className="mt-4 text-sm text-slate-500">Belum ada laporan dari database.</p>
