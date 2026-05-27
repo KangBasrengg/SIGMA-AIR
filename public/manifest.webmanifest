@@ -1,0 +1,17 @@
+{
+  "name": "SIGMA AIR",
+  "short_name": "SIGMA AIR",
+  "description": "Sistem Informasi Genangan, Monitoring, dan Analisis Air.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7fbfd",
+  "theme_color": "#0e7490",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

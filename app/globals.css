@@ -1,0 +1,98 @@
+@import "leaflet/dist/leaflet.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  background: #f7fbfd;
+  color: #102436;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 5% 0%, rgba(103, 232, 249, 0.2), transparent 28rem),
+    linear-gradient(180deg, #f7fbfd 0%, #eef8fb 52%, #f8fbfd 100%);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(6, 182, 212, 0.16), transparent 30rem),
+    linear-gradient(180deg, #07131f 0%, #0b1d2b 52%, #081521 100%);
+  color: #e8f6fb;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #dff5f9;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+.water-marker {
+  align-items: center;
+  border: 2px solid white;
+  border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(16, 36, 54, 0.22);
+  color: white;
+  display: flex;
+  font-size: 12px;
+  font-weight: 800;
+  height: 32px;
+  justify-content: center;
+  width: 32px;
+}
+
+.risk-high {
+  background: #ef4444;
+}
+
+.risk-medium {
+  background: #f97316;
+}
+
+.risk-low {
+  background: #16a34a;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
