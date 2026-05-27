@@ -88,7 +88,7 @@ export default function HistoricalChart({ regionId, currentWaterLevel, darkMode 
                 boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)"
               }}
               itemStyle={{ color: "#0ea5e9" }}
-              formatter={(value: number) => [`${value} cm`, "Level Air"]}
+              formatter={(value: any) => [`${value} cm`, "Level Air"]}
               labelStyle={{ color: darkMode ? "#94a3b8" : "#64748b", marginBottom: "4px" }}
             />
             <Area
