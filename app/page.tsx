@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import RegisterServiceWorker from "@/Components/RegisterServiceWorker";
+import HistoricalChart from "@/Components/HistoricalChart";
 import { initialReports, regions, riskCopy, sources, type CitizenReport } from "@/lib/data";
 
 const MapView = dynamic(() => import("@/Components/MapView"), {
@@ -837,6 +838,7 @@ export default function Home() {
                 {aiAnalysis?.analysis ?? t.aiSummary}
               </p>
             )}
+            <HistoricalChart regionId={selectedId} currentWaterLevel={selected.waterLevelCm} darkMode={darkMode} />
           </div>
         </div>
 
