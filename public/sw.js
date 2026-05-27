@@ -1,4 +1,4 @@
-const CACHE_NAME = "sigma-air-v1";
+const CACHE_NAME = "sigma-air-v2";
 const PRECACHE = ["/", "/logo.png", "/manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {
@@ -27,6 +27,55 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() => caches.match("/"));
+    })
+  );
+});
+
+// Push Notification handler
+self.addEventListener("push", (event) => {
+  const defaultData = {
+    title: "⚠️ Peringatan SIGMA AIR",
+    body: "Ada perubahan kondisi di wilayah pantauan Anda.",
+    icon: "/logo.png",
+    badge: "/logo.png",
+    url: "/",
+  };
+
+  let data = defaultData;
+  try {
+    data = { ...defaultData, ...event.data.json() };
+  } catch {
+    // Use defaults
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, {
+      body: data.body,
+      icon: data.icon,
+      badge: data.badge,
+      vibrate: [200, 100, 200],
+      data: { url: data.url },
+      actions: [
+        { action: "open", title: "Buka Dashboard" },
+        { action: "dismiss", title: "Tutup" },
+      ],
+    })
+  );
+});
+
+// Handle notification click
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  if (event.action === "dismiss") return;
+
+  const url = event.notification.data?.url || "/";
+  event.waitUntil(
+    self.clients.matchAll({ type: "window" }).then((clients) => {
+      for (const client of clients) {
+        if (client.url === url && "focus" in client) return client.focus();
+      }
+      return self.clients.openWindow(url);
     })
   );
 });

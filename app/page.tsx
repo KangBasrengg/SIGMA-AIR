@@ -195,7 +195,48 @@ export default function Home() {
   const [refreshIndex, setRefreshIndex] = useState(0);
   const [selectedId, setSelectedId] = useState(regions[0].id);
   const [threshold, setThreshold] = useState(40);
-  const [channels, setChannels] = useState<Record<Channel, boolean>>({ push: true, telegram: true });
+  const [channels, setChannels] = useState<Record<Channel, boolean>>({ push: false, telegram: true });
+
+  const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ?? "";
+
+  async function togglePush() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      alert('Browser Anda tidak mendukung Push Notification');
+      return;
+    }
+
+    const reg = await navigator.serviceWorker.ready;
+
+    if (channels.push) {
+      // Unsubscribe
+      const sub = await reg.pushManager.getSubscription();
+      if (sub) {
+        await sub.unsubscribe();
+        await fetch('/api/push/subscribe', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ endpoint: sub.endpoint }),
+        });
+      }
+      setChannels(c => ({ ...c, push: false }));
+    } else {
+      // Subscribe
+      try {
+        const sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: VAPID_PUBLIC_KEY,
+        });
+        await fetch('/api/push/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subscription: sub.toJSON(), regionId: selectedId }),
+        });
+        setChannels(c => ({ ...c, push: true }));
+      } catch {
+        alert('Gagal mengaktifkan notifikasi. Pastikan izin notifikasi diizinkan.');
+      }
+    }
+  }
   const [reports, setReports] = useState<CitizenReport[]>(initialReports);
   const [reportForm, setReportForm] = useState({ regionId: regions[0].id, description: "" });
   const [mediaFile, setMediaFile] = useState<File | null>(null);
@@ -631,7 +672,10 @@ export default function Home() {
                 <button
                   key={channel}
                   type="button"
-                  onClick={() => setChannels((current) => ({ ...current, [channel]: !current[channel] }))}
+                  onClick={() => {
+                    if (channel === 'push') { togglePush(); }
+                    else { setChannels((current) => ({ ...current, [channel]: !current[channel] })); }
+                  }}
                   className="flex w-full items-center justify-between rounded-md border border-slate-200 bg-white px-4 py-3 text-left dark:border-slate-700 dark:bg-slate-800"
                 >
                   <span className="flex items-center gap-3 text-sm font-bold">
