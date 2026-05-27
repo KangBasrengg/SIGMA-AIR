@@ -6,12 +6,6 @@ import webpush from "web-push";
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!;
 const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY!;
 
-webpush.setVapidDetails(
-  "mailto:admin@sigma-air.id",
-  VAPID_PUBLIC_KEY,
-  VAPID_PRIVATE_KEY
-);
-
 // POST /api/push/send — send push notification to all subscribers
 export async function POST(req: Request) {
   try {
@@ -22,6 +16,14 @@ export async function POST(req: Request) {
     const isAutoTrigger = req.headers.get("x-service-token") === process.env.ADMIN_PASSWORD;
     if (token?.value !== "sigma-air-authenticated" && !isAutoTrigger) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (VAPID_PUBLIC_KEY && VAPID_PRIVATE_KEY) {
+      webpush.setVapidDetails(
+        "mailto:admin@sigma-air.id",
+        VAPID_PUBLIC_KEY,
+        VAPID_PRIVATE_KEY
+      );
     }
 
     const { title, body, regionId } = await req.json();
