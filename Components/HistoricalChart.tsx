@@ -45,10 +45,10 @@ export default function HistoricalChart({ regionId, currentWaterLevel, darkMode 
   }, [regionId, currentWaterLevel]);
 
   return (
-    <div className="mt-5 rounded-lg border border-slate-100 bg-white/50 p-4 dark:border-slate-800 dark:bg-slate-900/50">
+    <div className="mt-5 rounded-lg border border-white/10 bg-white/5 p-4 shadow-sm">
       <div className="mb-4">
-        <h3 className="text-sm font-bold text-ink dark:text-white">Tren Ketinggian Air (24 Jam Terakhir)</h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400">Pola genangan dan air pasang di wilayah ini.</p>
+        <h3 className="text-sm font-bold text-white">Tren Ketinggian Air (24 Jam Terakhir)</h3>
+        <p className="text-xs font-medium text-slate-400">Pola genangan dan air pasang di wilayah ini.</p>
       </div>
       <div className="h-48 w-full">
         <ResponsiveContainer width="100%" height="100%">
@@ -62,34 +62,34 @@ export default function HistoricalChart({ regionId, currentWaterLevel, darkMode 
             <CartesianGrid 
               strokeDasharray="3 3" 
               vertical={false} 
-              stroke={darkMode ? "#1e293b" : "#e2e8f0"} 
+              stroke="#334155" 
             />
             <XAxis 
               dataKey="time" 
-              tick={{ fontSize: 10, fill: darkMode ? "#64748b" : "#94a3b8" }}
+              tick={{ fontSize: 10, fill: "#94a3b8" }}
               tickLine={false}
               axisLine={false}
               minTickGap={20}
             />
             <YAxis 
-              tick={{ fontSize: 10, fill: darkMode ? "#64748b" : "#94a3b8" }}
+              tick={{ fontSize: 10, fill: "#94a3b8" }}
               tickLine={false}
               axisLine={false}
               unit="cm"
             />
             <Tooltip 
               contentStyle={{ 
-                backgroundColor: darkMode ? "#0f172a" : "#ffffff",
-                borderColor: darkMode ? "#1e293b" : "#e2e8f0",
+                backgroundColor: "#0f172a",
+                borderColor: "#1e293b",
                 borderRadius: "8px",
                 fontSize: "12px",
                 fontWeight: "bold",
-                color: darkMode ? "#f8fafc" : "#0f172a",
+                color: "#f8fafc",
                 boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)"
               }}
-              itemStyle={{ color: "#0ea5e9" }}
+              itemStyle={{ color: "#38bdf8" }}
               formatter={(value: any) => [`${value} cm`, "Level Air"]}
-              labelStyle={{ color: darkMode ? "#94a3b8" : "#64748b", marginBottom: "4px" }}
+              labelStyle={{ color: "#94a3b8", marginBottom: "4px" }}
             />
             <Area
               type="monotone"
