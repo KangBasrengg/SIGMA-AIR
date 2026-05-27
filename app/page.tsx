@@ -472,10 +472,10 @@ export default function Home() {
 
       <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 rounded-lg border border-white/80 bg-white/85 px-4 py-3 shadow-soft backdrop-blur dark:border-slate-700 dark:bg-slate-900">
         <a className="flex min-w-0 items-center gap-3" href="#peta" aria-label="SIGMA AIR">
-          <Image src="/logo.png" alt="Logo SIGMA AIR" width={52} height={52} className="h-12 w-12 rounded-md object-cover" priority />
+          <Image src="/logo.png" alt="Logo SIGMA AIR" width={52} height={52} className="h-12 w-12 rounded-xl border border-slate-200 bg-white object-cover shadow-sm dark:border-slate-700" priority />
           <div className="min-w-0">
             <p className="text-lg font-black leading-5 tracking-normal text-ink dark:text-white">SIGMA AIR</p>
-            <p className="max-w-[260px] truncate text-xs font-medium text-slate-500 dark:text-slate-300">{t.tagline}</p>
+            <p className="mt-0.5 text-[10px] font-semibold leading-tight text-slate-500 dark:text-slate-400 sm:text-xs sm:leading-tight">{t.tagline}</p>
           </div>
         </a>
         <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300">
